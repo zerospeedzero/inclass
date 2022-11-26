@@ -18,10 +18,10 @@
         </header>
         <main>
             <?php
-                $query = "SELECT 'ID', 'description', 'file', 'thumbnail', 'photo' FROM gallery";
+                $query = "SELECT ID, description, file, thumbnail, photo FROM gallery";
                 $sql = mysqli_query($connect, $query);
                 while($row = mysqli_fetch_array($sql)){
-                    echo '<a href="descriptions.php?id='.$row['id'].'"><img src="'.$row['thumbnail'].'" alt="'.$row['description'].'"></a>';
+                    echo '<a href="descriptions.php?id='.$row['ID'].'"><img src="'.$row['thumbnail'].'" alt="'.$row['description'].'"></a>';
                     echo '<h2>'.$row['photo'].'</h2>';
                 }
             ?>

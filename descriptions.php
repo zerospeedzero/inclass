@@ -19,7 +19,7 @@
             <?php
                 // Connect the image data with the database and display the image and info
                 $id = $_GET['id'];
-                $query = "SELECT 'description', 'file', 'photo' WHERE id=$id";
+                $query = "SELECT description, file, photo from gallery WHERE id=$id";
                 $sql = mysqli_query($connect, $query);
                 $row = mysqli_fetch_array($sql);
 

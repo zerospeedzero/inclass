@@ -6,10 +6,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $file_name = $_FILES["upload"]["name"];
     $photo_name = $_POST["image"];
     $description = $_POST["description"];
-    }
+    
     // Renaming the original file name to whatever I be putting into the Image Name thing in my form
     $tmp_name = explode(".", $_FILES["upload"]["name"]);
-    $newname = $photo_name.'.'.end($tmp_name);
+    $newname = str_replace(' ', '_', $photo_name) .'.'.end($tmp_name);
     // These variables are renaming the files? I hope. I've never made comments before, this is OP.
     $full_size_path = "images/";
     $thumbnail_path = "thumbnails/";
@@ -22,7 +22,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(isset($_POST["submit"]) && !empty($_FILES["upload"])){
         $img_format = array('jpg', 'jpg');
     }
-        if(in_array($image_format) && !file_exists($full_size_rename)){
+        if(in_array($image_format, $img_format) && !file_exists($full_size_rename)){
             if(move_uploaded_file($_FILES["upload"]["tmp_name"], $full_size_rename)){
                 if($image_format == 'jpg'){
                     $jpg = imagecreatefromjpeg($full_size_rename);
@@ -31,7 +31,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     imagejpeg($thumbnail, $thumbnail_rename);
                     move_uploaded_file($full_size_rename, $thumbnail_rename);
                     // Connecting to the Database and sending image data
-                    $insert = $connect->query("INSERT into gallery ('description', 'file', 'thumbnail', 'photo') VALUES ('$description', '$full_size_rename', '$thumbnail_rename', '$photo_name')");
+                    $insert = $connect->query("INSERT into gallery (description, file, thumbnail, photo) VALUES ('" . $description . "','" . $full_size_rename . "','" . $thumbnail_rename . "','" . $photo_name . "')");
                 }
             }
         }
@@ -42,6 +42,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     else {
                         $msg = "Critical Failure Uploading Your Image, lol!";
                     }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,7 +61,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         </header>
         <main>
             <?php
-            echo $msg
+            if (isset($msg)) echo $msg;
             ?>
             <form method="post" enctype="multipart/form-data">
                 <label for="upload">Upload Image</label>
