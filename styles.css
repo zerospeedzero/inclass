@@ -1,0 +1,11 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    background-color: cadetblue;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+header, form {
+    text-align: center;
+    margin: auto;
+}
